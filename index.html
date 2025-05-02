@@ -1,3 +1,417 @@
-<html>
-    <p> Hi Zander </p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M4TMH | Music for Teens Mental Health</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #6e8efb 0%, #a777e3 100%);
+        }
+        .page-transition {
+            transition: all 0.3s ease;
+        }
+        .donation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .music-note {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+    </style>
+</head>
+<body class="font-sans bg-gray-50">
+    <!-- Navigation -->
+    <nav class="gradient-bg text-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-music text-2xl"></i>
+                <a href="#" onclick="showPage('home')" class="text-2xl font-bold">M4TMH</a>
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#" onclick="showPage('home')" class="hover:text-purple-200 transition">Home</a>
+                <a href="#" onclick="showPage('about')" class="hover:text-purple-200 transition">About Us</a>
+                <a href="#" onclick="showPage('donate')" class="hover:text-purple-200 transition">Donate</a>
+            </div>
+            <button class="md:hidden focus:outline-none" id="mobile-menu-button">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+        <!-- Mobile menu -->
+        <div class="md:hidden hidden gradient-bg px-6 py-3" id="mobile-menu">
+            <div class="flex flex-col space-y-3">
+                <a href="#" onclick="showPage('home')" class="hover:text-purple-200 transition">Home</a>
+                <a href="#" onclick="showPage('about')" class="hover:text-purple-200 transition">About Us</a>
+                <a href="#" onclick="showPage('donate')" class="hover:text-purple-200 transition">Donate</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div id="home-page" class="page-transition">
+        <!-- Hero Section -->
+        <section class="gradient-bg text-white py-20">
+            <div class="container mx-auto px-6 text-center">
+                <div class="flex justify-center mb-6">
+                    <i class="fas fa-music music-note text-4xl mx-2"></i>
+                    <i class="fas fa-heart music-note delay-1 text-4xl mx-2"></i>
+                    <i class="fas fa-headphones music-note delay-2 text-4xl mx-2"></i>
+                </div>
+                <h1 class="text-5xl font-bold mb-6">Music for Teens Mental Health</h1>
+                <p class="text-xl mb-8 max-w-2xl mx-auto">Harnessing the power of music to support and improve mental health for teenagers everywhere.</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <button onclick="showPage('about')" class="bg-white text-purple-600 px-8 py-3 rounded-full font-semibold hover:bg-purple-100 transition">Learn More</button>
+                    <button onclick="showPage('donate')" class="bg-purple-800 text-white px-8 py-3 rounded-full font-semibold hover:bg-purple-700 transition">Donate Now</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Impact Section -->
+        <section class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center mb-16">Our Impact</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-gray-50 p-8 rounded-xl text-center">
+                        <div class="text-purple-600 text-5xl mb-4">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">10,000+ Teens Reached</h3>
+                        <p class="text-gray-600">Through our programs and online resources, we've helped thousands of teens find comfort in music.</p>
+                    </div>
+                    <div class="bg-gray-50 p-8 rounded-xl text-center">
+                        <div class="text-purple-600 text-5xl mb-4">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">500+ Workshops</h3>
+                        <p class="text-gray-600">Interactive music workshops conducted in schools and community centers nationwide.</p>
+                    </div>
+                    <div class="bg-gray-50 p-8 rounded-xl text-center">
+                        <div class="text-purple-600 text-5xl mb-4">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">87% Report Improvement</h3>
+                        <p class="text-gray-600">Participants report significant improvements in mood and mental wellbeing after our programs.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section class="py-20 bg-gray-50">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center mb-16">What Teens Say</h2>
+                <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                    <div class="bg-white p-8 rounded-xl shadow-sm">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 mr-4">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Jamie, 16</h4>
+                                <p class="text-gray-500 text-sm">High School Student</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600">"The songwriting workshop helped me express feelings I couldn't put into words. I finally felt understood."</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl shadow-sm">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 mr-4">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Alex, 15</h4>
+                                <p class="text-gray-500 text-sm">Music Enthusiast</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600">"Discovering music that matched my emotions made me feel less alone. M4TMH's playlist recommendations saved me."</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="py-16 gradient-bg text-white">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl font-bold mb-6">Join Our Movement</h2>
+                <p class="text-xl mb-8 max-w-2xl mx-auto">Your support can help us bring the healing power of music to more teens in need.</p>
+                <button onclick="showPage('donate')" class="bg-white text-purple-600 px-8 py-3 rounded-full font-semibold hover:bg-purple-100 transition">Make a Difference</button>
+            </div>
+        </section>
+    </div>
+
+    <!-- About Us Page -->
+    <div id="about-page" class="page-transition hidden">
+        <section class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="flex flex-col md:flex-row items-center mb-16">
+                    <div class="md:w-1/2 mb-8 md:mb-0 md:pr-12">
+                        <h1 class="text-4xl font-bold mb-6">Our Story</h1>
+                        <p class="text-gray-600 mb-4">Founded in 2018 by music therapist Sarah Johnson and teen mental health advocate Michael Chen, M4TMH began as a small community initiative and has grown into a national movement.</p>
+                        <p class="text-gray-600">We believe in the transformative power of music to heal, comfort, and empower young minds navigating the challenges of adolescence.</p>
+                    </div>
+                    <div class="md:w-1/2">
+                        <div class="bg-gray-100 rounded-xl overflow-hidden aspect-video flex items-center justify-center">
+                            <i class="fas fa-play-circle text-6xl text-purple-600"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="py-12">
+                    <h2 class="text-3xl font-bold text-center mb-12">Our Team</h2>
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div class="bg-gray-50 p-6 rounded-xl text-center">
+                            <div class="w-32 h-32 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 text-4xl mx-auto mb-4">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-2">Sarah Johnson</h3>
+                            <p class="text-purple-600 mb-3">Founder & Music Therapist</p>
+                            <p class="text-gray-600">With 15 years in music therapy, Sarah developed our core therapeutic programs.</p>
+                        </div>
+                        <div class="bg-gray-50 p-6 rounded-xl text-center">
+                            <div class="w-32 h-32 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 text-4xl mx-auto mb-4">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-2">Michael Chen</h3>
+                            <p class="text-purple-600 mb-3">Co-Founder & Advocate</p>
+                            <p class="text-gray-600">Michael's personal journey inspired our focus on teen mental health.</p>
+                        </div>
+                        <div class="bg-gray-50 p-6 rounded-xl text-center">
+                            <div class="w-32 h-32 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 text-4xl mx-auto mb-4">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold mb-2">Dr. Lisa Park</h3>
+                            <p class="text-purple-600 mb-3">Clinical Advisor</p>
+                            <p class="text-gray-600">Child psychologist ensuring our methods are evidence-based and effective.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="py-12 bg-gray-50 rounded-xl px-8">
+                    <h2 class="text-3xl font-bold text-center mb-8">Our Approach</h2>
+                    <div class="max-w-4xl mx-auto">
+                        <div class="mb-8">
+                            <h3 class="text-xl font-semibold mb-3 flex items-center">
+                                <span class="w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center mr-3">1</span>
+                                Music as Therapy
+                            </h3>
+                            <p class="text-gray-600 ml-11">We create safe spaces where teens can explore emotions through curated playlists, songwriting, and music appreciation.</p>
+                        </div>
+                        <div class="mb-8">
+                            <h3 class="text-xl font-semibold mb-3 flex items-center">
+                                <span class="w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center mr-3">2</span>
+                                Community Building
+                            </h3>
+                            <p class="text-gray-600 ml-11">Our peer-led discussion groups help teens connect over shared musical interests and experiences.</p>
+                        </div>
+                        <div class="mb-8">
+                            <h3 class="text-xl font-semibold mb-3 flex items-center">
+                                <span class="w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center mr-3">3</span>
+                                Professional Support
+                            </h3>
+                            <p class="text-gray-600 ml-11">Licensed therapists are available to guide teens when deeper support is needed.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-16 gradient-bg text-white">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl font-bold mb-6">Ready to Make a Difference?</h2>
+                <p class="text-xl mb-8 max-w-2xl mx-auto">Your support helps us expand our programs and reach more teens in need.</p>
+                <button onclick="showPage('donate')" class="bg-white text-purple-600 px-8 py-3 rounded-full font-semibold hover:bg-purple-100 transition">Donate Now</button>
+            </div>
+        </section>
+    </div>
+
+    <!-- Donation Page -->
+    <div id="donate-page" class="page-transition hidden">
+        <section class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h1 class="text-4xl font-bold mb-4">Support Our Mission</h1>
+                    <p class="text-xl text-gray-600 max-w-2xl mx-auto">Every donation helps us bring the healing power of music to teens struggling with mental health challenges.</p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-16">
+                    <div class="bg-gray-50 p-8 rounded-xl text-center donation-card transition">
+                        <div class="text-purple-600 text-4xl mb-4">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">Basic Support</h3>
+                        <p class="text-3xl font-bold mb-4">$25</p>
+                        <p class="text-gray-600 mb-6">Provides one teen with access to our online resources for a month</p>
+                        <button class="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition">Donate</button>
+                    </div>
+                    <div class="bg-purple-600 text-white p-8 rounded-xl text-center donation-card transition transform scale-105">
+                        <div class="text-white text-4xl mb-4">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">Sustainer</h3>
+                        <p class="text-3xl font-bold mb-4">$100</p>
+                        <p class="mb-6">Sponsors a teen for a full year of our program</p>
+                        <button class="w-full bg-white text-purple-600 py-2 rounded-lg hover:bg-gray-100 transition">Donate</button>
+                    </div>
+                    <div class="bg-gray-50 p-8 rounded-xl text-center donation-card transition">
+                        <div class="text-purple-600 text-4xl mb-4">
+                            <i class="fas fa-hands-helping"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">Champion</h3>
+                        <p class="text-3xl font-bold mb-4">$500</p>
+                        <p class="text-gray-600 mb-6">Funds an entire workshop for 20 teens</p>
+                        <button class="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition">Donate</button>
+                    </div>
+                </div>
+
+                <div class="max-w-3xl mx-auto bg-gray-50 rounded-xl p-8 mb-16">
+                    <h2 class="text-2xl font-bold mb-6 text-center">Custom Donation</h2>
+                    <form>
+                        <div class="mb-6">
+                            <label class="block text-gray-700 mb-2">Amount ($)</label>
+                            <input type="number" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" placeholder="Enter your amount">
+                        </div>
+                        <div class="mb-6">
+                            <label class="block text-gray-700 mb-2">Payment Method</label>
+                            <div class="grid grid-cols-4 gap-4">
+                                <button type="button" class="border rounded-lg p-3 hover:bg-gray-100 transition">
+                                    <i class="fab fa-cc-visa text-3xl text-blue-800"></i>
+                                </button>
+                                <button type="button" class="border rounded-lg p-3 hover:bg-gray-100 transition">
+                                    <i class="fab fa-cc-mastercard text-3xl text-red-800"></i>
+                                </button>
+                                <button type="button" class="border rounded-lg p-3 hover:bg-gray-100 transition">
+                                    <i class="fab fa-cc-amex text-3xl text-blue-500"></i>
+                                </button>
+                                <button type="button" class="border rounded-lg p-3 hover:bg-gray-100 transition">
+                                    <i class="fab fa-cc-paypal text-3xl text-blue-700"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mb-6">
+                            <label class="flex items-center">
+                                <input type="checkbox" class="form-checkbox text-purple-600">
+                                <span class="ml-2 text-gray-700">Make this a monthly recurring donation</span>
+                            </label>
+                        </div>
+                        <button type="submit" class="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition">Complete Donation</button>
+                    </form>
+                </div>
+
+                <div class="max-w-4xl mx-auto text-center">
+                    <h2 class="text-2xl font-bold mb-4">Other Ways to Support</h2>
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="bg-gray-50 p-6 rounded-lg">
+                            <i class="fas fa-hands-helping text-3xl text-purple-600 mb-3"></i>
+                            <h3 class="font-semibold mb-2">Volunteer</h3>
+                            <p class="text-gray-600">Share your time and skills with our organization</p>
+                        </div>
+                        <div class="bg-gray-50 p-6 rounded-lg">
+                            <i class="fas fa-bullhorn text-3xl text-purple-600 mb-3"></i>
+                            <h3 class="font-semibold mb-2">Spread the Word</h3>
+                            <p class="text-gray-600">Follow and share our social media content</p>
+                        </div>
+                        <div class="bg-gray-50 p-6 rounded-lg">
+                            <i class="fas fa-guitar text-3xl text-purple-600 mb-3"></i>
+                            <h3 class="font-semibold mb-2">Host a Fundraiser</h3>
+                            <p class="text-gray-600">Organize a musical event to benefit M4TMH</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-music text-2xl"></i>
+                        <span class="text-2xl font-bold">M4TMH</span>
+                    </div>
+                    <p class="text-gray-400">Music for Teens Mental Health is a 501(c)(3) nonprofit organization.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" onclick="showPage('home')" class="text-gray-400 hover:text-white transition">Home</a></li>
+                        <li><a href="#" onclick="showPage('about')" class="text-gray-400 hover:text-white transition">About Us</a></li>
+                        <li><a href="#" onclick="showPage('donate')" class="text-gray-400 hover:text-white transition">Donate</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Contact</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-center"><i class="fas fa-envelope mr-2"></i> info@m4tmh.org</li>
+                        <li class="flex items-center"><i class="fas fa-phone mr-2"></i> (555) 123-4567</li>
+                        <li class="flex items-center"><i class="fas fa-map-marker-alt mr-2"></i> 123 Music Ave, Suite 200</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Follow Us</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-purple-600 transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-purple-600 transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-purple-600 transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-purple-600 transition">
+                            <i class="fab fa-spotify"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2023 Music for Teens Mental Health. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Page navigation
+        function showPage(page) {
+            // Hide all pages
+            document.getElementById('home-page').classList.add('hidden');
+            document.getElementById('about-page').classList.add('hidden');
+            document.getElementById('donate-page').classList.add('hidden');
+            
+            // Show selected page
+            document.getElementById(`${page}-page`).classList.remove('hidden');
+            
+            // Hide mobile menu if open
+            document.getElementById('mobile-menu').classList.add('hidden');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Highlight current page in nav
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function() {
+                document.querySelectorAll('nav a').forEach(l => l.classList.remove('font-bold'));
+                this.classList.add('font-bold');
+            });
+        });
+    </script>
+</body>
 </html>
