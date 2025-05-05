@@ -1,61 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Welcome</title>
-  <style>
-    /* Base page styling */
-    html, body {
-      margin: 0;
-      height: 100%;
-      background-color: #E8F5E9;
-      /* Pale mint green background with soft leaf shadow overlay */
-      background-image: 
-        radial-gradient(ellipse at 80% 20%, rgba(0,0,0,0.15) 20%, transparent 80%),
-        radial-gradient(circle at 85% 60%, rgba(0,0,0,0.1) 10%, transparent 70%);
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-position: top right;
-      font-family: Georgia, serif;
-    }
-    /* Container to center content */
-    .welcome-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      height: 100vh;
-      width: 90%;
-      margin: 0 auto;
-    }
-    /* Left text block */
-    .tagline {
-      color: #3A3A3A;
-      font-size: 48px;
-      line-height: 1.2;
-    }
-    /* Right button */
-    .new-page-btn {
-      display: inline-block;
-      background-color: #3A3A3A;
-      color: #FFFFFF;
-      text-decoration: none;
-      font-family: Arial, sans-serif;
-      font-size: 20px;
-      letter-spacing: 1px;
-      padding: 15px 40px;
-      border-radius: 30px;
-      text-align: center;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journal with a friend</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Times New Roman', Times, serif;
+        }
+        
+        body {
+            background-color: #d7d9cf;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .title {
+            font-size: 2.5rem;
+            color: #3c3c35;
+            font-weight: normal;
+            line-height: 1.2;
+        }
+        
+        .new-page-btn {
+            background-color: #3c3c35;
+            color: white;
+            padding: 20px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .new-page-btn:hover {
+            opacity: 0.9;
+        }
+    </style>
 </head>
 <body>
-  <div class="welcome-container">
-    <!-- Left side text -->
-    <div class="tagline">
-      Journal<br>with a<br>friend.
+    <div class="container">
+        <h1 class="title">Journal<br>with a<br>friend.</h1>
+        <button class="new-page-btn" onclick="window.location.href='write.html'">New Page</button>
     </div>
-    <!-- Right side button -->
-    <a href="new-page.html" class="new-page-btn">NEW PAGE</a>
-  </div>
 </body>
 </html>
