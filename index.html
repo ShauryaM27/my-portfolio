@@ -30,17 +30,17 @@
     <script>
         /**
          * Hugging Face Inference API Integration:
-         * 1. Generate a token at https://huggingface.co/settings/tokens with 'read' access.
-         * 2. Ensure your token starts with "hf_" (e.g., "hf_a1b2c3...").
-         * 3. Set TOKEN exactly as the full string, including the "hf_" prefix.
-         * 4. Verify your model repo path (HF_API_URL) matches your Hugging Face namespace and model name.
+         * 1. On your model page (https://huggingface.co/Qwen/Qwen3-235B-A22B), click "Use in Transformers" or "API Inference" to find the exact endpoint URL.
+         *    It should look like: https://api-inference.huggingface.co/models/<namespace>/<model>
+         * 2. Ensure the model is public or your token has 'read' access for private repos.
+         * 3. Generate a token at https://huggingface.co/settings/tokens with 'read' scope. The token must begin with 'hf_'.
+         * 4. Replace HF_API_TOKEN below with the full token string, including 'hf_'.
          */
         const journalText = document.getElementById('journalText');
         const aiAnswer = document.getElementById('aiAnswer');
-        const HF_API_URL = 'https://api-inference.huggingface.co/models/Qwen/Qwen3-235B-A22B';
+        const HF_API_URL = 'https://api-inference.huggingface.co/models/Qwen/Qwen3-235B-A22B'; // Verify this matches your model page
         const HF_API_TOKEN = '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';  // <-- Replace with your actual token, include the 'hf_' prefix
 
-        // Debounce to limit API calls
         let typingTimer;
         journalText.addEventListener('input', () => {
             clearTimeout(typingTimer);
@@ -59,21 +59,30 @@
                         'Authorization': `Bearer ${HF_API_TOKEN}`,
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ inputs: text })
+                    body: JSON.stringify({ inputs: text, options: { wait_for_model: true } })
                 });
+
+                console.log('HTTP status:', response.status);
                 const data = await response.json();
                 console.log('HF API raw response:', data);
 
+                if (response.status === 404) {
+                    aiAnswer.textContent = 'Error: Endpoint not found. Please verify HF_API_URL matches your model name and namespace.';
+                    return;
+                }
+                if (response.status === 401) {
+                    aiAnswer.textContent = 'Error: Unauthorized. Check your HF_API_TOKEN.';
+                    return;
+                }
                 if (data.error || data.detail) {
                     aiAnswer.textContent = `Error: ${data.error || data.detail}`;
                     return;
                 }
-                
-                // Example: data[0].generated_text or data.generated_text
+
+                // Adjust based on response format
                 const generated = Array.isArray(data)
                     ? data[0].generated_text
                     : data.generated_text;
-
                 aiAnswer.textContent = generated || 'No text generated.';
             } catch (err) {
                 console.error('HF API error:', err);
@@ -81,7 +90,6 @@
             }
         }
 
-        // Initial greeting
         window.addEventListener('load', () => {
             aiAnswer.textContent = "I'm here to chat as you write—what's on your mind today?";
         });
