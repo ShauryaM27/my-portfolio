@@ -60,6 +60,17 @@
             margin-top: auto;
         }
         
+        #journalText {
+            background-color: transparent;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            height: 60%;
+            width: 100%;
+            resize: none;
+            outline: none;
+        }
+        
         .ai-response {
             background-color: transparent;
             border: 2px solid #3c3c35;
@@ -83,17 +94,7 @@
             text-align: center;
             color: #3c3c35;
             padding: 10px;
-        }
-        
-        #journalText {
-            background-color: transparent;
-            border: none;
-            color: white;
-            font-size: 1.2rem;
-            height: 60%;
-            width: 100%;
-            resize: none;
-            outline: none;
+            overflow-y: auto;
         }
     </style>
 </head>
@@ -101,183 +102,64 @@
     <div class="container">
         <div class="writing-area">
             <div class="instructions">
-                <p>(As you type, an AI model will start to talk about what you write, they will write in a very friendly way and ask questions about events you write about. You can even ask the ai questions about what to write by writing with ** as a predecessor to a sentence and ** as a end of a sentence)</p>
+                <!-- You can add writing instructions here -->
             </div>
             <div class="begin-writing">Begin writing...</div>
             <textarea id="journalText" placeholder="Start typing here..."></textarea>
             <div class="note">
-                <p>(Once you begin writing, you start writing at the top left)</p>
+                <!-- Additional notes if needed -->
             </div>
         </div>
         <div class="ai-response">
-            <div class="ai-question">Whats on your mind?</div>
-            <div class="ai-answer">(The Ai model will say thing here)</div>
+            <div class="ai-question">What's on your mind?</div>
+            <div class="ai-answer" id="aiAnswer">(The AI model will reply here)</div>
         </div>
     </div>
 
     <script>
-        // OpenAI Integration
+        // Hugging Face Inference API integration
         const journalText = document.getElementById('journalText');
-        const aiAnswer = document.querySelector('.ai-answer');
+        const aiAnswer = document.getElementById('aiAnswer');
+        const HF_API_URL = 'https://api-inference.huggingface.co/models/Qwen/Qwen3-235B-A22B';
+        const HF_API_TOKEN = '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'; // <-- Insert your Hugging Face API token
+
+        // Debounce typing
         let typingTimer;
-        let lastProcessedText = '';
-        
-        // OpenAI API configuration
-        const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
-        // You'll need to provide an API key when implementing this
-        const API_KEY = 'YOUR_OPENAI_API_KEY'; 
-        
-        journalText.addEventListener('input', function() {
+        journalText.addEventListener('input', () => {
             clearTimeout(typingTimer);
-            
-            // Check for questions to the AI (surrounded by **)
-            const text = journalText.value;
-            const questionMatch = text.match(/\*\*(.*?)\*\*/);
-            
-            if (questionMatch) {
-                // User asked a question
-                const question = questionMatch[1].trim();
-                
-                // Remove the question markers from the text
-                journalText.value = text.replace(/\*\*(.*?)\*\*/, '$1');
-                
-                // Process with OpenAI
-                processWithOpenAI(question, true);
-            } else {
-                // Regular journal entry - AI responds after user stops typing
-                typingTimer = setTimeout(() => {
-                    // Only process if there's new text
-                    if (text.trim().length > 10 && text !== lastProcessedText) {
-                        processWithOpenAI(text, false);
-                        lastProcessedText = text;
-                    }
-                }, 2000);
-            }
+            typingTimer = setTimeout(() => {
+                const text = journalText.value.trim();
+                if (text.length > 0) {
+                    queryHuggingFace(text);
+                }
+            }, 500);
         });
-        
-        async function processWithOpenAI(text, isQuestion) {
+
+        async function queryHuggingFace(text) {
+            aiAnswer.textContent = '...thinking...';
             try {
-                // Show loading state
-                aiAnswer.textContent = "Thinking...";
-                
-                // For demo purposes, simulate API call with pre-defined responses
-                // In production, replace this with actual API call
-                setTimeout(() => {
-                    if (isQuestion) {
-                        handleQuestionResponse(text);
-                    } else {
-                        handleJournalResponse(text);
-                    }
-                }, 700);
-                
-                // In a production environment, you would uncomment and use this:
-                /*
-                const response = await fetch(OPENAI_API_URL, {
+                const response = await fetch(HF_API_URL, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${API_KEY}`
+                        'Authorization': `Bearer ${HF_API_TOKEN}`,
+                        'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({
-                        model: "gpt-3.5-turbo", // Use the best free model currently available
-                        messages: [
-                            {
-                                role: "system", 
-                                content: "You are a friendly, empathetic journaling companion. Respond in single, conversational sentences. Sound warm and human. Ask thoughtful questions about the user's writing. Keep responses concise."
-                            },
-                            {
-                                role: "user", 
-                                content: isQuestion ? 
-                                    `The user is asking about what to write: "${text}"` : 
-                                    `The user wrote in their journal: "${text}". Respond with a friendly observation or question.`
-                            }
-                        ],
-                        max_tokens: 60,
-                        temperature: 0.7
-                    })
+                    body: JSON.stringify({ inputs: text })
                 });
-                
                 const data = await response.json();
-                aiAnswer.textContent = data.choices[0].message.content;
-                */
-            } catch (error) {
-                console.error("Error communicating with AI:", error);
-                aiAnswer.textContent = "I'm having trouble connecting right now, but I'm still listening.";
+                // The response structure may vary; adjust as needed
+                const generated = data[0]?.generated_text || data.generated_text || JSON.stringify(data);
+                aiAnswer.textContent = generated;
+            } catch (err) {
+                console.error('HF API error:', err);
+                aiAnswer.textContent = 'Error connecting to AI.';
             }
         }
-        
-        function handleJournalResponse(text) {
-            // Friendly, human-like single sentence responses
-            const responses = [
-                "I love how you described that moment, what were you feeling when it happened?",
-                "It sounds like that experience really made an impression on you!",
-                "Have you noticed how this connects to other things you've been thinking about lately?",
-                "I'm curious to hear more about what happened next in your story.",
-                "The way you express yourself is so thoughtful, what inspired you to write about this today?",
-                "That's such an interesting perspective, have you always felt this way?",
-                "Reading your thoughts makes me wonder what you might do differently next time.",
-                "I'm right here with you as you process these thoughts and feelings.",
-                "Your writing has such a genuine quality to it, especially when you share details like that.",
-                "It takes courage to reflect so honestly, what other insights have you had recently?"
-            ];
-            
-            // Choose a response that seems most relevant based on content
-            let response = responses[Math.floor(Math.random() * responses.length)];
-            
-            // Simple content matching to improve relevance
-            if (text.includes("happy") || text.includes("joy") || text.includes("excited")) {
-                response = "Your happiness shines through your words, what else brought you joy today?";
-            } else if (text.includes("sad") || text.includes("upset") || text.includes("frustrated")) {
-                response = "I can sense this was challenging for you, how are you taking care of yourself through these feelings?";
-            } else if (text.includes("wonder") || text.includes("curious") || text.includes("think")) {
-                response = "Your curiosity is really engaging, what other questions have been on your mind lately?";
-            }
-            
-            aiAnswer.textContent = response;
-        }
-        
-        function handleQuestionResponse(question) {
-            // Friendly, helpful responses to questions about writing
-            const questionResponses = {
-                topic: [
-                    "Write about a small moment that brought you unexpected joy today.",
-                    "Try describing the most peaceful place you can imagine, how does it make you feel?",
-                    "Consider writing about a conversation that's been on your mind lately.",
-                    "Maybe share about something you're looking forward to this week?"
-                ],
-                stuck: [
-                    "Just write the very first thing that comes to mind, even if it seems silly.",
-                    "Try describing what you can see right now in great detail, just as a starting point.",
-                    "Sometimes starting with 'I remember when...' can unlock a flood of thoughts."
-                ],
-                feeling: [
-                    "Try putting your feelings into colors or weather patterns instead of naming them directly.",
-                    "What does this emotion feel like in your body, where exactly do you notice it?",
-                    "If your feeling could speak, what would it say to you right now?"
-                ],
-                general: [
-                    "Write whatever feels most alive in you right now, there's no wrong way to journal.",
-                    "Your thoughts are always worth exploring, what's been occupying your mind lately?",
-                    "Sometimes the simplest observations lead to the deepest insights, what have you noticed today?"
-                ]
-            };
-            
-            // Determine response category based on question content
-            let category = "general";
-            if (question.match(/topic|write about|idea|subject/i)) {
-                category = "topic";
-            } else if (question.match(/stuck|block|can't think|help me/i)) {
-                category = "stuck";
-            } else if (question.match(/feel|emotion|mood|sad|happy|angry/i)) {
-                category = "feeling";
-            }
-            
-            // Select random response from appropriate category
-            const responses = questionResponses[category];
-            const response = responses[Math.floor(Math.random() * responses.length)];
-            
-            aiAnswer.textContent = response;
-        }
+
+        // Initial greeting
+        window.addEventListener('load', () => {
+            aiAnswer.textContent = "I'm here to chat as you write—what's on your mind today?";
+        });
     </script>
 </body>
 </html>
