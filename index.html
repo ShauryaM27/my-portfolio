@@ -29,16 +29,16 @@
 
     <script>
         /**
-         * Make sure:
-         * 1) HF_API_URL points exactly to your model's inference endpoint.
-         *    e.g. https://api-inference.huggingface.co/models/Qwen/Qwen3-235B-A22B
-         * 2) HF_API_TOKEN is a valid token with access to that model.
-         * 3) The model is loaded and available for inference.
+         * Hugging Face Inference API Integration:
+         * 1. Generate a token at https://huggingface.co/settings/tokens with 'read' access.
+         * 2. Ensure your token starts with "hf_" (e.g., "hf_a1b2c3...").
+         * 3. Set TOKEN exactly as the full string, including the "hf_" prefix.
+         * 4. Verify your model repo path (HF_API_URL) matches your Hugging Face namespace and model name.
          */
         const journalText = document.getElementById('journalText');
         const aiAnswer = document.getElementById('aiAnswer');
-        const HF_API_URL = 'https://api-inference.huggingface.co/models/Qwen/Qwen3-235B-A22B'; // verify path
-        const HF_API_TOKEN = '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';
+        const HF_API_URL = 'https://api-inference.huggingface.co/models/Qwen/Qwen3-235B-A22B';
+        const HF_API_TOKEN = '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';  // <-- Replace with your actual token, include the 'hf_' prefix
 
         // Debounce to limit API calls
         let typingTimer;
@@ -64,15 +64,17 @@
                 const data = await response.json();
                 console.log('HF API raw response:', data);
 
-                if (data.detail) {
-                    // Model or endpoint not found / error message
-                    aiAnswer.textContent = `Error: ${data.detail}`;
+                if (data.error || data.detail) {
+                    aiAnswer.textContent = `Error: ${data.error || data.detail}`;
                     return;
                 }
+                
+                // Example: data[0].generated_text or data.generated_text
+                const generated = Array.isArray(data)
+                    ? data[0].generated_text
+                    : data.generated_text;
 
-                // Adjust based on actual API response structure
-                const generated = data[0]?.generated_text || data.generated_text || JSON.stringify(data);
-                aiAnswer.textContent = generated;
+                aiAnswer.textContent = generated || 'No text generated.';
             } catch (err) {
                 console.error('HF API error:', err);
                 aiAnswer.textContent = 'Error connecting to AI.';
